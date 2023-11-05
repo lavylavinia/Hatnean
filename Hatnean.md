@@ -11,3 +11,25 @@
 <p>6. Metoda OnRenderFrame() este rulată atunci când dorim randarea scenei.
 <p>7. Este nevoie sa executam cel putin o data metoda OnRenderFrame() pentru a initia afisarea si sa setam viewport-ul grafic.</p>
 <p>8. Parametrii metodei CreatePerspectiveFieldOfView() reprezintă creearea unei perspective a proiectării unei matrici si a raportului de aspecte și distanțe plane apropiate și de vedere.
+
+#Laborator 3- Hatnean Lavinia 3131a
+
+<p>1. Ordinea de desenare a vertexurilor este in sens anti-orar.</p>
+<p>3. -GL.LineWidth(float) mărește diametrul liniei
+-GL.PointSize(float)- precizeaza diametrul punctului
+Aceste comenzi functioneaza in interiorul unei
+zone GL.Begin(), nu si in afara ei. </p>
+
+> 4. Intrebari
+
+<p>4.1. Directiva LineLoop creaza o legatura intre segmentele desenate pana cand ultimul segment este unit cu primul (efect de bucla)</p>
+<p>4.2. Directiva LineStrip creaza o legatura intre segmentele desenate astfel incat dupa fiecare doua segmente desenate se specifica un vertex de legatura.</p>
+<p>4.3. Directiva TriangleFan deseneaza tringhiuri sub forma circulara.</p>
+<p>4.4. Directiva TriangleStrip deseneaza pe ecran triunghiuri conectate intre ele, iar dupa ce s-au dat 3 vertexuri pentru crearea triunghiului se specifica un vertex.</p>
+<p>Gradientul de culoare reprezintă o paleta de culori care evidențiază trecerea de la o culoare
+la alta. În OpenGL acest lucru se realizează prin specificarea culorii vertex-urilor ce compun o
+anumită figură. </p>
+<p>8. Canalul de transparenta este o valoare pe 32 de biți de la 0 unde este complet transparent si la 255 unde este complet opac</p>
+<p>10. Utilizarea culorilor diferite la vertexuri invecinate duce la crearea unui gradient pe acea dreapta.</p>
+
+

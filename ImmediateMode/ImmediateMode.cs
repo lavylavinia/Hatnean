@@ -3,6 +3,7 @@
 *************************************************/
 using System;
 using System.Drawing;
+using System.IO;
 using System.Security.Policy;
 using OpenTK;
 using OpenTK.Graphics;
@@ -13,6 +14,9 @@ namespace OpenTK_immediate_mode
 {
     class ImmediateMode : GameWindow
     {
+        private int[] vec = new int[20];
+        private int OK = 1;
+        private int OK2 = 2;
 
         private const int XYZ_SIZE = 75;
 
@@ -36,6 +40,22 @@ namespace OpenTK_immediate_mode
             GL.Enable(EnableCap.DepthTest);
             GL.DepthFunc(DepthFunction.Less);
             GL.Hint(HintTarget.PolygonSmoothHint, HintMode.Nicest);
+
+            /*
+             Laborator 3-citire date din fisier
+             */
+            string linie;
+            char[] sep = { ',' };
+            int i = 0;
+
+            StreamReader f = new StreamReader("date.txt");
+            while ((linie = f.ReadLine()) != null)
+            {
+                string[] numere = linie.Split(sep, StringSplitOptions.RemoveEmptyEntries);
+                foreach (string x in numere)
+                    vec[i++] = int.Parse(x);
+
+            }
         }
 
         /**Inițierea afișării și setarea viewport-ului grafic. Metoda este invocată la redimensionarea
@@ -103,15 +123,8 @@ namespace OpenTK_immediate_mode
 
             GL.Clear(ClearBufferMask.ColorBufferBit);
             GL.Clear(ClearBufferMask.DepthBufferBit);
-
-
-
-
             DrawAxes();
-
             DrawObjects();
-
-
 
             // Se lucrează în modul DOUBLE BUFFERED - câtă vreme se afișează o imagine randată, o alta se randează în background apoi cele 2 sunt schimbate...
             SwapBuffers();
@@ -120,21 +133,20 @@ namespace OpenTK_immediate_mode
         private void DrawAxes()
         {
 
-            //GL.LineWidth(3.0f);
-
+           
             // Desenează axa Ox (cu roșu).
             GL.Begin(PrimitiveType.Lines);
             GL.Color3(Color.Red);
             GL.Vertex3(0, 0, 0);
             GL.Vertex3(XYZ_SIZE, 0, 0);
-            GL.End();
+           
 
             // Desenează axa Oy (cu galben).
             GL.Begin(PrimitiveType.Lines);
             GL.Color3(Color.Yellow);
             GL.Vertex3(0, 0, 0);
             GL.Vertex3(0, XYZ_SIZE, 0); ;
-            GL.End();
+           
 
             // Desenează axa Oz (cu verde).
             GL.Begin(PrimitiveType.Lines);
@@ -146,8 +158,72 @@ namespace OpenTK_immediate_mode
 
         private void DrawObjects()
         {
+            KeyboardState keyboard = Keyboard.GetState();
+
+            GL.Begin(PrimitiveType.Triangles);
+            GL.Color3(1.0, 0.0, 0.0);
 
 
+            /*
+             * Rezolvare Laborator 3
+             */
+            //la apasarea tastei sus triunghiul isi va schimba culoarea cu rosu
+            if (keyboard[Key.Up])
+            {
+                if (OK == 255)
+                    OK = 1;
+                OK++;
+
+                GL.Color3(Color.FromArgb(OK, 0, 0));
+                Console.WriteLine(OK); //afisare valori RGB in consola
+            }
+            GL.Vertex3(vec[0], vec[1], vec[2]);
+
+            //la apasarea tastei jos triunghiul isi va schimba culoarea cu verde
+            if (keyboard[Key.Down])
+            {
+                if (OK == 255)
+                    OK = 1;
+                OK++;
+                GL.Color3(Color.FromArgb(0, OK, 0));
+                Console.WriteLine(OK);
+
+            }
+            //la apasarea sagetii stanga se va schimba cu culoarea albastra
+            GL.Vertex3(vec[3], vec[4], vec[5]);
+            if (keyboard[Key.Left])
+            {
+                if (OK == 255)
+                    OK = 1;
+                OK++;
+                GL.Color3(Color.FromArgb(0, 0, OK));
+                Console.WriteLine(OK);
+
+            }
+            GL.Vertex3(vec[6], vec[7], vec[8]);
+            if (keyboard[Key.Right])
+            {
+                if (OK2== 255 || OK == 255)
+                    OK2 = OK = 0;
+                OK2++;
+                OK++;
+                GL.Color3(Color.FromArgb(OK2, 0, 255, 0));
+                Console.WriteLine(OK2);
+
+            }
+
+            GL.End();
+
+            GL.Begin(PrimitiveType.LineStrip);
+            GL.Color3(1.0, 0.0, 0.0);
+            GL.Vertex3(0.0, 10, 0.0f); //vertex 1
+            GL.Color3(0.0, 0.0, 0.0);
+            GL.Vertex3(0.0f, 0.0f, 0.0f); //vertex 2
+            GL.Color3(0.0, 1.0, 0.0);
+            GL.Vertex3(10, 10, 0.0f); //vertex 3
+            GL.Color3(0.0, 0.0, 1.0);
+            GL.Vertex3(15, 0.0f, 0.0f); //vertex 4
+            GL.End();
 
         }
 
